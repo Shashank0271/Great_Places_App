@@ -20,12 +20,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
     void selectImage(File pickedImage) {
       _pickedImage = pickedImage;
-      print("pickedimage stored");
     }
 
     void _savePlace() {
       if (titleTextController.text.isEmpty || _pickedImage == null) {
-        print(_pickedImage == null);
         return;
       }
       Provider.of<GreatPlaces>(context, listen: false)
