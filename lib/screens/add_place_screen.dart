@@ -1,14 +1,38 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-
+import 'package:great_places_app/providers/great_places.dart';
 import '../widgets/image_input.dart';
+import 'package:provider/provider.dart';
 
-class AddPlaceScreen extends StatelessWidget {
+class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add_place_screen';
   const AddPlaceScreen({Key? key}) : super(key: key);
 
   @override
+  State<AddPlaceScreen> createState() => _AddPlaceScreenState();
+}
+
+class _AddPlaceScreenState extends State<AddPlaceScreen> {
+  @override
   Widget build(BuildContext context) {
     TextEditingController titleTextController = TextEditingController();
+    File? _pickedImage;
+
+    void selectImage(File pickedImage) {
+      _pickedImage = pickedImage;
+      print("pickedimage stored");
+    }
+
+    void _savePlace() {
+      if (titleTextController.text.isEmpty || _pickedImage == null) {
+        print(_pickedImage == null);
+        return;
+      }
+      Provider.of<GreatPlaces>(context, listen: false)
+          .addPlace(titleTextController.text, _pickedImage!);
+      Navigator.of(context).pop();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add a new place'),
@@ -30,21 +54,21 @@ class AddPlaceScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const ImageInput(),
+                    ImageInput(selectImage),
                   ],
                 ),
               ),
             ),
           ),
           ElevatedButton.icon(
-            onPressed: () {},
-            icon: Icon(
-              Icons.add,
-              color: Theme.of(context).iconTheme.color,
-            ),
             label: Text(
               'Add Place',
               style: Theme.of(context).textTheme.button,
+            ),
+            onPressed: _savePlace,
+            icon: Icon(
+              Icons.add,
+              color: Theme.of(context).iconTheme.color,
             ),
             style: ElevatedButton.styleFrom(
                 elevation: 0,
