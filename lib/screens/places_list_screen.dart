@@ -29,9 +29,11 @@ class PlacesListScreen extends StatelessWidget {
             : ListView.builder(
                 itemCount: gp.items.length,
                 itemBuilder: (ctx, index) => ListTile(
-                        leading: CircleAvatar(
-                      backgroundImage: FileImage(gp.items[index].image!),
-                    ))),
+                      leading: CircleAvatar(
+                        backgroundImage: FileImage(gp.items[index].image!),
+                      ),
+                      title: Text('${gp.items[index].title}'),
+                    )),
       ),
     );
   }

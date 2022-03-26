@@ -5,8 +5,8 @@ import 'package:path/path.dart' as path; //constructing paths
 import 'package:path_provider/path_provider.dart' as syspath; //finding paths
 
 class ImageInput extends StatefulWidget {
-  final Function onSelectImage; //pointer to the function is passed
-  ImageInput(this.onSelectImage);
+  final Function sendIt; //pointer to the function is passed
+  ImageInput(this.sendIt);
 
   @override
   State<ImageInput> createState() => _ImageInputState();
@@ -15,7 +15,6 @@ class ImageInput extends StatefulWidget {
 class _ImageInputState extends State<ImageInput> {
   File? storedImage;
   Future<void> _takePicture() async {
-    //pick image for static else use getImage()
     final imageFile = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
@@ -28,7 +27,7 @@ class _ImageInputState extends State<ImageInput> {
     final pickedImage =
         await File(imageFile.path).copy('${direc.path}/$fileName');
 
-    widget.onSelectImage(pickedImage);
+    widget.sendIt(pickedImage);
   }
 
   @override

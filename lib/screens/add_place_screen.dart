@@ -19,12 +19,28 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     File? _pickedImage;
 
     void selectImage(File pickedImage) {
+      //just so we can bring the file to this dart file
+      //since the code to save the place is in this file
       _pickedImage = pickedImage;
     }
 
     void _savePlace() {
       if (titleTextController.text.isEmpty || _pickedImage == null) {
-        return;
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  content: const Text('Enter the image and title'),
+                  title: const Text('Please enter both the image and title!'),
+                  actions: [
+                    IconButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      icon: Icon(
+                        Icons.check_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ));
       }
       Provider.of<GreatPlaces>(context, listen: false)
           .addPlace(titleTextController.text, _pickedImage!);
