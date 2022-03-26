@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:great_places_app/providers/great_places.dart';
 import 'package:great_places_app/screens/add_place_screen.dart';
+import 'package:great_places_app/services/database_helper.dart';
 import 'package:provider/provider.dart';
 
 class PlacesListScreen extends StatelessWidget {
@@ -8,6 +11,7 @@ class PlacesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
     // ignore: dead_code
     return Scaffold(
       appBar: AppBar(
@@ -21,20 +25,21 @@ class PlacesListScreen extends StatelessWidget {
         ],
       ),
       body: Consumer<GreatPlaces>(
-        child: const Center(
-          child: Text('no places added'),
-        ),
-        builder: (ctx, gp, ch) => gp.items.length <= 0
-            ? ch!
-            : ListView.builder(
-                itemCount: gp.items.length,
-                itemBuilder: (ctx, index) => ListTile(
+          child: const Center(
+            child: Text('no places added'),
+          ),
+          builder: (ctx, gp, ch) => gp.items.length <= 0
+              ? ch!
+              : FutureBuilder(
+                  future: _databaseHelper.queryAllRows(),
+                  builder:
+                      (ctx, AsyncSnapshot<List<Map<String, dynamic>>> map) {
+                    return ListTile(
                       leading: CircleAvatar(
-                        backgroundImage: FileImage(gp.items[index].image!),
+                        child: Image.file(File(map['image'])),
                       ),
-                      title: Text('${gp.items[index].title}'),
-                    )),
-      ),
+                    );
+                  })),
     );
   }
 }
