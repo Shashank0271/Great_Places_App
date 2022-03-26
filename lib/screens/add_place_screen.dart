@@ -27,15 +27,6 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       _pickedImage = pickedImage;
     }
 
-    void checkDb(String title, File image) async {
-      _databaseHelper.create(Place(title: title, image: image));
-      List<Map<String, dynamic>> placesList =
-          await _databaseHelper.queryAllRows();
-      placesList.forEach((element) {
-        print(element['id'].toString() + " " + element['title']);
-      });
-    }
-
     void _savePlace() async {
       if (titleTextController.text.isEmpty || _pickedImage == null) {
         showDialog(
@@ -57,10 +48,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       }
       Provider.of<GreatPlaces>(context, listen: false)
           .addPlace(titleTextController.text, _pickedImage!);
-      checkDb(titleTextController.text.toString(), _pickedImage!);
       Navigator.of(context).pop();
-      // DatabaseHelper.instance.queryAllRows();
-      // setState(() {});
     }
 
     return Scaffold(

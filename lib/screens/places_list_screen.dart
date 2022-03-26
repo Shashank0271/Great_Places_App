@@ -17,6 +17,7 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
     // ignore: dead_code
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Your places'),
         actions: [
           IconButton(
             icon: const Icon(Icons.add_a_photo),
@@ -46,26 +47,39 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
             }
             return snapshot.connectionState == ConnectionState.waiting
                 ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (cx, index) => Card(
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage:
-                              FileImage(File(snapshot.data![index]['image'])),
-                        ),
-                        trailing: IconButton(
-                            icon: Icon(
-                              Icons.delete_forever,
-                              color: Theme.of(context).colorScheme.error,
-                              size: 25,
+                : AnimationLimiter(
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (cx, index) =>
+                          AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 575),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: Card(
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: FileImage(
+                                      File(snapshot.data![index]['image'])),
+                                ),
+                                trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.delete_forever,
+                                      color:
+                                          Theme.of(context).colorScheme.error,
+                                      size: 25,
+                                    ),
+                                    onPressed: () {
+                                      DatabaseHelper.instance
+                                          .delete(snapshot.data![index]['id']);
+                                      setState(() {});
+                                    }),
+                                title: Text(snapshot.data![index]['title']),
+                              ),
                             ),
-                            onPressed: () {
-                              DatabaseHelper.instance
-                                  .delete(snapshot.data![index]['id']);
-                              setState(() {});
-                            }),
-                        title: Text(snapshot.data![index]['title']),
+                          ),
+                        ),
                       ),
                     ),
                   );
