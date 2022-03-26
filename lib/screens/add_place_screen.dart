@@ -48,6 +48,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       }
       Provider.of<GreatPlaces>(context, listen: false)
           .addPlace(titleTextController.text, _pickedImage!);
+      _databaseHelper.create(Place(
+          title: titleTextController.text.toString(), image: _pickedImage));
       Navigator.of(context).pop();
     }
 
