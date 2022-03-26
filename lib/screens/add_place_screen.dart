@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:great_places_app/providers/great_places.dart';
 import '../widgets/image_input.dart';
 import 'package:provider/provider.dart';
+import 'package:great_places_app/models/place.dart';
+import 'package:great_places_app/services/database_helper.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add_place_screen';
@@ -13,6 +15,7 @@ class AddPlaceScreen extends StatefulWidget {
 }
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
+  final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
   @override
   Widget build(BuildContext context) {
     TextEditingController titleTextController = TextEditingController();
@@ -24,7 +27,16 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       _pickedImage = pickedImage;
     }
 
-    void _savePlace() {
+    void checkDb(String title, File image) async {
+      _databaseHelper.create(Place(title: title, image: image));
+      List<Map<String, dynamic>> placesList =
+          await _databaseHelper.queryAllRows();
+      placesList.forEach((element) {
+        print(element['id'].toString() + " " + element['title']);
+      });
+    }
+
+    void _savePlace() async {
       if (titleTextController.text.isEmpty || _pickedImage == null) {
         showDialog(
             context: context,
@@ -41,9 +53,11 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     ),
                   ],
                 ));
+        return;
       }
       Provider.of<GreatPlaces>(context, listen: false)
           .addPlace(titleTextController.text, _pickedImage!);
+      checkDb(titleTextController.text.toString(), _pickedImage!);
       Navigator.of(context).pop();
     }
 

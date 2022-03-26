@@ -8,11 +8,11 @@ class GreatPlaces with ChangeNotifier {
     return [..._items]; //... we get a copt of the list , not the actual list
   }
 
-  void addPlace(String title, File image) {
+  void addPlace(String title, File imageFile) {
     final newPlace = Place(
       id: DateTime.now().toString(),
       title: title,
-      image: image,
+      image: imageFile,
     );
     _items.add(newPlace);
     notifyListeners();

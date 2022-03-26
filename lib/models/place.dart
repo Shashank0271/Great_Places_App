@@ -16,4 +16,10 @@ class Place {
     this.longitude,
     this.address,
   });
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'title': title,
+        'image': image!.path,
+      };
 }
