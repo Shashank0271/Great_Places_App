@@ -1,17 +1,19 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:great_places_app/providers/great_places.dart';
 import 'package:great_places_app/screens/add_place_screen.dart';
 import 'package:great_places_app/services/database_helper.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-class PlacesListScreen extends StatelessWidget {
+class PlacesListScreen extends StatefulWidget {
   const PlacesListScreen({Key? key}) : super(key: key);
 
   @override
+  State<PlacesListScreen> createState() => _PlacesListScreenState();
+}
+
+class _PlacesListScreenState extends State<PlacesListScreen> {
+  @override
   Widget build(BuildContext context) {
-    final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
     // ignore: dead_code
     return Scaffold(
       appBar: AppBar(
@@ -19,27 +21,55 @@ class PlacesListScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.add_a_photo),
             onPressed: () {
-              Navigator.of(context).pushNamed(AddPlaceScreen.routeName);
+              Navigator.of(context)
+                  .pushNamed(AddPlaceScreen.routeName)
+                  .then((value) {
+                setState(() {});
+              });
             },
           ),
         ],
       ),
-      body: Consumer<GreatPlaces>(
-          child: const Center(
-            child: Text('no places added'),
-          ),
-          builder: (ctx, gp, ch) => gp.items.length <= 0
-              ? ch!
-              : FutureBuilder(
-                  future: _databaseHelper.queryAllRows(),
-                  builder:
-                      (ctx, AsyncSnapshot<List<Map<String, dynamic>>> map) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Image.file(File(map['image'])),
+      body: FutureBuilder(
+          future: DatabaseHelper.instance.queryAllRows(),
+          builder: (ctx, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.data!.isEmpty) {
+              return const Center(
+                child: Text(
+                  'no places added',
+                ),
+              );
+            }
+            return snapshot.connectionState == ConnectionState.waiting
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (cx, index) => Card(
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage:
+                              FileImage(File(snapshot.data![index]['image'])),
+                        ),
+                        trailing: IconButton(
+                            icon: Icon(
+                              Icons.delete_forever,
+                              color: Theme.of(context).colorScheme.error,
+                              size: 25,
+                            ),
+                            onPressed: () {
+                              DatabaseHelper.instance
+                                  .delete(snapshot.data![index]['id']);
+                              setState(() {});
+                            }),
+                        title: Text(snapshot.data![index]['title']),
                       ),
-                    );
-                  })),
+                    ),
+                  );
+          }),
     );
   }
 }

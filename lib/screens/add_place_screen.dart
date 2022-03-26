@@ -59,6 +59,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
           .addPlace(titleTextController.text, _pickedImage!);
       checkDb(titleTextController.text.toString(), _pickedImage!);
       Navigator.of(context).pop();
+      // DatabaseHelper.instance.queryAllRows();
+      // setState(() {});
     }
 
     return Scaffold(
