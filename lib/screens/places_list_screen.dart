@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:great_places_app/screens/add_place_screen.dart';
 import 'package:great_places_app/services/database_helper.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:page_transition/page_transition.dart';
 
 class PlacesListScreen extends StatefulWidget {
   const PlacesListScreen({Key? key}) : super(key: key);
@@ -18,18 +19,33 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your places'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add_a_photo),
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(AddPlaceScreen.routeName)
-                  .then((value) {
-                setState(() {});
-              });
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.add_a_photo),
+        //     onPressed: () {
+        //       Navigator.of(context)
+        //           .pushNamed(AddPlaceScreen.routeName)
+        //           .then((value) {
+        //         setState(() {});
+        //       });
+        //     },
+        //   ),
+        // ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add_a_photo_rounded),
+        onPressed: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.rotate,
+                duration: const Duration(seconds: 1),
+                alignment: Alignment.bottomCenter,
+                child: const AddPlaceScreen(),
+              )).then((value) {
+            setState(() {});
+          });
+        },
       ),
       body: FutureBuilder(
           future: DatabaseHelper.instance.queryAllRows(),
@@ -49,11 +65,12 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
                 ? const Center(child: CircularProgressIndicator())
                 : AnimationLimiter(
                     child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (cx, index) =>
                           AnimationConfiguration.staggeredList(
                         position: index,
-                        duration: const Duration(milliseconds: 575),
+                        duration: const Duration(milliseconds: 500),
                         child: SlideAnimation(
                           verticalOffset: 50.0,
                           child: FadeInAnimation(
