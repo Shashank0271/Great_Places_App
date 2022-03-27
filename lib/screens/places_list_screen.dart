@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:great_places_app/screens/add_place_screen.dart';
 import 'package:great_places_app/services/database_helper.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class PlacesListScreen extends StatefulWidget {
   const PlacesListScreen({Key? key}) : super(key: key);
