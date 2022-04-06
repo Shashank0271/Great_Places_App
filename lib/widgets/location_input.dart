@@ -36,7 +36,6 @@ class _LocationInputState extends State<LocationInput> {
     //     _mapController = controller;
     //   },
     // );
-    //newb comment
 
     Uint8List? imageBytes = await _mapController?.takeSnapshot();
     setState(() {
