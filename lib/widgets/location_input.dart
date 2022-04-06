@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -43,10 +45,10 @@ class _LocationInputState extends State<LocationInput> {
           child: _cameraPosition == null
               ? const Center(child: Text('No location Chosen'))
               : GoogleMap(
-                  markers: markerSet,
                   scrollGesturesEnabled: false,
                   zoomControlsEnabled: false,
                   zoomGesturesEnabled: false,
+                  markers: markerSet,
                   initialCameraPosition: _cameraPosition!,
                   onMapCreated: (GoogleMapController controller) async {
                     _controller.complete(controller);
@@ -55,8 +57,10 @@ class _LocationInputState extends State<LocationInput> {
                 ),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
           ),
         ),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -66,9 +70,9 @@ class _LocationInputState extends State<LocationInput> {
               label: const Text('Current Location'),
             ),
             ElevatedButton.icon(
-              onPressed: null,
+              onPressed: () {},
               icon: const Icon(Icons.map_outlined),
-              label: const Text('Current Location'),
+              label: const Text('Select on Map'),
             ),
           ],
         )

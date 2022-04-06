@@ -70,7 +70,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     TextField(
                       controller: titleTextController,
                       decoration: const InputDecoration(
-                        labelText: 'title',
+                        labelText: 'Title',
                         hintText: 'Enter the title here',
                       ),
                     ),

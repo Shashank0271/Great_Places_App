@@ -38,8 +38,10 @@ class _ImageInputState extends State<ImageInput> {
         Container(
           height: 100,
           width: 150,
-          decoration:
-              BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
+          decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Colors.grey),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+          ),
           child: storedImage != null
               ? Image.file(
                   storedImage!,
