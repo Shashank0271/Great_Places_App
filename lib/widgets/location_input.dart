@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'dart:typed_data';
 
 class LocationInput extends StatefulWidget {
   const LocationInput({Key? key}) : super(key: key);
@@ -17,6 +16,8 @@ class _LocationInputState extends State<LocationInput> {
   String? imageUrl;
   CameraPosition? _cameraPosition;
   final Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController? _mapController;
+  final Set<Marker> markerSet = {};
 
   Future<void> _getCurrentLocation() async {
     var locationData = await Location().getLocation();
@@ -26,6 +27,9 @@ class _LocationInputState extends State<LocationInput> {
       target: LatLng(latitude, longitude),
       zoom: 14.4746,
     );
+    markerSet.add(Marker(
+        markerId: const MarkerId('home'),
+        position: LatLng(latitude, longitude)));
     setState(() {});
   }
 
@@ -39,6 +43,7 @@ class _LocationInputState extends State<LocationInput> {
           child: _cameraPosition == null
               ? const Center(child: Text('No location Chosen'))
               : GoogleMap(
+                  markers: markerSet,
                   scrollGesturesEnabled: false,
                   zoomControlsEnabled: false,
                   zoomGesturesEnabled: false,
