@@ -16,8 +16,7 @@ const apiKey = 'AIzaSyBhCqHm1BrofyrPtltsmJ2eu5B7lAkMURs';
 class _LocationInputState extends State<LocationInput> {
   String? imageUrl;
   CameraPosition? _cameraPosition;
-  GoogleMapController? _mapController;
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
   Future<void> _getCurrentLocation() async {
     var locationData = await Location().getLocation();
