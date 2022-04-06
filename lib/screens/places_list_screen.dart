@@ -15,22 +15,9 @@ class PlacesListScreen extends StatefulWidget {
 class _PlacesListScreenState extends State<PlacesListScreen> {
   @override
   Widget build(BuildContext context) {
-    // ignore: dead_code
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your places'),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.add_a_photo),
-        //     onPressed: () {
-        //       Navigator.of(context)
-        //           .pushNamed(AddPlaceScreen.routeName)
-        //           .then((value) {
-        //         setState(() {});
-        //       });
-        //     },
-        //   ),
-        // ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add_a_photo_rounded),
