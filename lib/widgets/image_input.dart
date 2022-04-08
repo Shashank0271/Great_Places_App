@@ -26,7 +26,6 @@ class _ImageInputState extends State<ImageInput> {
     final fileName = path.basename(imageFile!.path);
     final pickedImage =
         await File(imageFile.path).copy('${direc.path}/$fileName');
-
     widget.sendIt(pickedImage);
   }
 

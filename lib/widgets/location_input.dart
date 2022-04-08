@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
+import 'package:great_places_app/screens/map_screen.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
@@ -17,22 +18,67 @@ const apiKey = 'AIzaSyBhCqHm1BrofyrPtltsmJ2eu5B7lAkMURs';
 class _LocationInputState extends State<LocationInput> {
   String? imageUrl;
   CameraPosition? _cameraPosition;
-  final Completer<GoogleMapController> _controller = Completer();
+  // final Completer<GoogleMapController> _controller = Completer();
   GoogleMapController? _mapController;
-  final Set<Marker> markerSet = {};
+  Set<Marker> markerSet = {};
+  late double latitude, longitude;
 
   Future<void> _getCurrentLocation() async {
     var locationData = await Location().getLocation();
-    var latitude = locationData.latitude as double;
-    var longitude = locationData.longitude as double;
+    latitude = locationData.latitude as double;
+    longitude = locationData.longitude as double;
     _cameraPosition = CameraPosition(
       target: LatLng(latitude, longitude),
       zoom: 14.4746,
     );
-    markerSet.add(Marker(
+    markerSet = {
+      Marker(
         markerId: const MarkerId('home'),
-        position: LatLng(latitude, longitude)));
-    setState(() {});
+        position: LatLng(latitude, longitude),
+      )
+    };
+    setState(() {
+      if (_mapController != null) {
+        var newPosition =
+            CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
+        CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
+        _mapController!.moveCamera(update);
+      }
+    });
+  }
+
+  void updateLocSnap() async {
+    final LatLng returnedLocation = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) {
+          return MapScreen(
+            latitude: latitude,
+            longitude: longitude,
+          );
+        },
+      ),
+    );
+    setState(() {
+      latitude = returnedLocation.latitude;
+      longitude = returnedLocation.longitude;
+
+      markerSet = {
+        Marker(
+            markerId: const MarkerId("id"),
+            position: LatLng(latitude, longitude))
+      };
+      var newPosition =
+          CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
+      CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
+      _mapController!.moveCamera(update);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -51,7 +97,7 @@ class _LocationInputState extends State<LocationInput> {
                   markers: markerSet,
                   initialCameraPosition: _cameraPosition!,
                   onMapCreated: (GoogleMapController controller) async {
-                    _controller.complete(controller);
+                    // _controller.complete(controller);
                     _mapController = controller;
                   },
                 ),
@@ -70,7 +116,7 @@ class _LocationInputState extends State<LocationInput> {
               label: const Text('Current Location'),
             ),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: updateLocSnap,
               icon: const Icon(Icons.map_outlined),
               label: const Text('Select on Map'),
             ),
