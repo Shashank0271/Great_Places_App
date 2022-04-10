@@ -37,7 +37,6 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       if (titleTextController.text.isEmpty ||
           _pickedImage == null ||
           _latitude == null) {
-        print(_latitude);
         showDialog(
             context: context,
             builder: (ctx) => AlertDialog(

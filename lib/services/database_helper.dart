@@ -31,7 +31,6 @@ class DatabaseHelper {
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    //for one data-table called $tableName , we can create multiple such data tables
     db.execute('''CREATE TABLE $tableName(
       $columnid INTEGER PRIMARY KEY AUTOINCREMENT, 
       $columnTitle TEXT NOT NULL ,

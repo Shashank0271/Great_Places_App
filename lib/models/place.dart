@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'dart:io';
 
 class Place {
-  final String? id;
+  // final String? id;
   final String? title;
   final latitude;
   final longitude;
   final address;
   final File? image;
   Place({
-    @required this.id,
+    // @required this.id,
     @required this.title,
     @required this.image,
     this.latitude,
@@ -18,7 +18,7 @@ class Place {
   });
 
   Map<String, dynamic> toMap() => {
-        'id': id,
+        // 'id': id,
         'title': title,
         'image': image!.path,
         'latitude': latitude,
