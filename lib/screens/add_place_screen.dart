@@ -29,7 +29,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     }
 
     void selectLocation(double latitude, double longitude) {
-      print('called');
+      // print('called');
       _latitude = latitude;
       _longitude = longitude;
     }
@@ -56,7 +56,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       Provider.of<GreatPlaces>(context, listen: false)
           .addPlace(titleTextController.text, _pickedImage!);
       _databaseHelper.create(Place(
-          title: titleTextController.text.toString(), image: _pickedImage));
+          title: titleTextController.text.toString(),
+          image: _pickedImage,
+          latitude: _latitude,
+          longitude: _longitude));
       Navigator.of(context).pop();
     }
 
