@@ -1,5 +1,3 @@
-// ignore_for_file: unused_field
-
 import 'package:flutter/material.dart';
 import 'package:great_places_app/screens/map_screen.dart';
 import 'package:location/location.dart';
@@ -23,6 +21,13 @@ class _LocationInputState extends State<LocationInput> {
   Set<Marker> markerSet = {};
   late double latitude, longitude;
 
+  void _moveCamToPos(double latitude, double longitude) {
+    var newPosition =
+        CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
+    CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
+    _mapController!.moveCamera(update);
+  }
+
   Future<void> _getCurrentLocation() async {
     var locationData = await Location().getLocation();
     latitude = locationData.latitude as double;
@@ -39,10 +44,11 @@ class _LocationInputState extends State<LocationInput> {
     };
     setState(() {
       if (_mapController != null) {
-        var newPosition =
-            CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
-        CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
-        _mapController!.moveCamera(update);
+        // var newPosition =
+        //     CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
+        // CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
+        // _mapController!.moveCamera(update);
+        _moveCamToPos(latitude, longitude);
       }
     });
   }
@@ -69,10 +75,11 @@ class _LocationInputState extends State<LocationInput> {
             markerId: const MarkerId("id"),
             position: LatLng(latitude, longitude))
       };
-      var newPosition =
-          CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
-      CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
-      _mapController!.moveCamera(update);
+      // var newPosition =
+      //     CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
+      // CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
+      // _mapController!.moveCamera(update);
+      _moveCamToPos(latitude, longitude);
     });
   }
 
