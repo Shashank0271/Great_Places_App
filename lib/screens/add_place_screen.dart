@@ -29,18 +29,19 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     }
 
     void selectLocation(double latitude, double longitude) {
-      // print('called');
       _latitude = latitude;
       _longitude = longitude;
     }
 
     void _savePlace() async {
-      if (titleTextController.text.isEmpty || _pickedImage == null) {
+      if (titleTextController.text.isEmpty ||
+          _pickedImage == null ||
+          _latitude == null) {
+        print(_latitude);
         showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
-                  content: const Text('Enter the image and title'),
-                  title: const Text('Please enter both the image and title!'),
+                  content: const Text('Enter all the details'),
                   actions: [
                     IconButton(
                       onPressed: () => Navigator.of(ctx).pop(),
@@ -55,6 +56,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       }
       Provider.of<GreatPlaces>(context, listen: false)
           .addPlace(titleTextController.text, _pickedImage!);
+      // ignore: missing_required_param
       _databaseHelper.create(Place(
           title: titleTextController.text.toString(),
           image: _pickedImage,
