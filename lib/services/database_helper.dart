@@ -37,8 +37,8 @@ class DatabaseHelper {
       $columnTitle TEXT NOT NULL ,
       $columnImage TEXT NOT NULL ,
       $columnlatitude TEXT ,
-      $columnlongitude TEXT ,
-0    )''');
+      $columnlongitude TEXT 
+    )''');
   }
 
   Future<int> create(Place place) async {

@@ -44,10 +44,6 @@ class _LocationInputState extends State<LocationInput> {
     };
     setState(() {
       if (_mapController != null) {
-        // var newPosition =
-        //     CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
-        // CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
-        // _mapController!.moveCamera(update);
         _moveCamToPos(latitude, longitude);
       }
     });
@@ -75,10 +71,6 @@ class _LocationInputState extends State<LocationInput> {
             markerId: const MarkerId("id"),
             position: LatLng(latitude, longitude))
       };
-      // var newPosition =
-      //     CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
-      // CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
-      // _mapController!.moveCamera(update);
       _moveCamToPos(latitude, longitude);
     });
   }
