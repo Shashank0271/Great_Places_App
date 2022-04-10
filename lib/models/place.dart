@@ -23,5 +23,6 @@ class Place {
         'image': image!.path,
         'latitude': latitude,
         'longitude': longitude,
+        'address': address,
       };
 }

@@ -12,6 +12,7 @@ class DatabaseHelper {
   static const columnImage = "image";
   static const columnlatitude = "latitude";
   static const columnlongitude = "longitude";
+  static const columnaddress = "address";
 
   static final instance = DatabaseHelper._init();
   DatabaseHelper._init();
@@ -36,7 +37,8 @@ class DatabaseHelper {
       $columnTitle TEXT NOT NULL ,
       $columnImage TEXT NOT NULL ,
       $columnlatitude TEXT ,
-      $columnlongitude TEXT 
+      $columnlongitude TEXT ,
+      $columnaddress TEXT ,
     )''');
   }
 
