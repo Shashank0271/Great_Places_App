@@ -25,7 +25,7 @@ class _LocationInputState extends State<LocationInput> {
   CameraPosition? _cameraPosition;
   GoogleMapController? _mapController;
   Set<Marker> markerSet = {};
-  late double latitude, longitude;
+  double? _latitude, _longitude;
 
   void _moveCamToPos(double latitude, double longitude) {
     var newPosition =
@@ -34,51 +34,66 @@ class _LocationInputState extends State<LocationInput> {
     _mapController!.moveCamera(update);
   }
 
-  Future<void> _getCurrentLocation() async {
+  Future<void> getCurrentCoordinates() async {
     var locationData = await Location().getLocation();
-    latitude = locationData.latitude as double;
-    longitude = locationData.longitude as double;
+    _latitude = locationData.latitude as double;
+    _longitude = locationData.longitude as double;
+  }
+
+  Future<void> _currentLocation() async {
+    await getCurrentCoordinates();
     _cameraPosition = CameraPosition(
-      target: LatLng(latitude, longitude),
+      target: LatLng(_latitude!, _longitude!),
       zoom: 14.4746,
     );
     markerSet = {
       Marker(
         markerId: const MarkerId('home'),
-        position: LatLng(latitude, longitude),
+        position: LatLng(_latitude!, _longitude!),
       )
     };
     setState(() {
-      widget.selectLocation(latitude, longitude);
+      widget.selectLocation(_latitude, _longitude);
       if (_mapController != null) {
-        _moveCamToPos(latitude, longitude);
+        _moveCamToPos(_latitude!, _longitude!);
       }
     });
   }
 
   void updateLocSnap() async {
+    //after selecting from map
+    if (_latitude == null) {
+      await getCurrentCoordinates();
+    }
     final LatLng returnedLocation = await Navigator.push(
       context,
       MaterialPageRoute(
         fullscreenDialog: true,
         builder: (context) {
           return MapScreen(
-            latitude: latitude,
-            longitude: longitude,
+            latitude: _latitude!,
+            longitude: _longitude!,
           );
         },
       ),
     );
     setState(() {
-      latitude = returnedLocation.latitude;
-      longitude = returnedLocation.longitude;
-      widget.selectLocation(latitude, longitude);
+      _latitude = returnedLocation.latitude;
+      _longitude = returnedLocation.longitude;
+      widget.selectLocation(_latitude, _longitude);
       markerSet = {
         Marker(
             markerId: const MarkerId("id"),
-            position: LatLng(latitude, longitude))
+            position: LatLng(_latitude!, _longitude!))
       };
-      _moveCamToPos(latitude, longitude);
+      if (_mapController != null) {
+        _moveCamToPos(_latitude!, _longitude!);
+      } else {
+        _cameraPosition = _cameraPosition = CameraPosition(
+          target: LatLng(_latitude!, _longitude!),
+          zoom: 14.4746,
+        );
+      }
     });
   }
 
@@ -96,15 +111,18 @@ class _LocationInputState extends State<LocationInput> {
           width: double.infinity,
           child: _cameraPosition == null
               ? const Center(child: Text('No location Chosen'))
-              : GoogleMap(
-                  scrollGesturesEnabled: false,
-                  zoomControlsEnabled: false,
-                  zoomGesturesEnabled: false,
-                  markers: markerSet,
-                  initialCameraPosition: _cameraPosition!,
-                  onMapCreated: (GoogleMapController controller) async {
-                    _mapController = controller;
-                  },
+              : ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  child: GoogleMap(
+                    scrollGesturesEnabled: false,
+                    zoomControlsEnabled: false,
+                    zoomGesturesEnabled: false,
+                    markers: markerSet,
+                    initialCameraPosition: _cameraPosition!,
+                    onMapCreated: (GoogleMapController controller) {
+                      _mapController = controller;
+                    },
+                  ),
                 ),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
@@ -116,7 +134,7 @@ class _LocationInputState extends State<LocationInput> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ElevatedButton.icon(
-              onPressed: _getCurrentLocation,
+              onPressed: _currentLocation,
               icon: const Icon(Icons.location_on_outlined),
               label: const Text('Current Location'),
             ),

@@ -1,11 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places_app/providers/great_places.dart';
 import 'package:great_places_app/widgets/location_input.dart';
 import '../widgets/image_input.dart';
 import 'package:provider/provider.dart';
 import 'package:great_places_app/models/place.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:great_places_app/services/database_helper.dart';
+
+const apiKey = 'AIzaSyBhCqHm1BrofyrPtltsmJ2eu5B7lAkMURs';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add_place_screen';
@@ -53,14 +57,18 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 ));
         return;
       }
+
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(_latitude!, _longitude!);
       Provider.of<GreatPlaces>(context, listen: false)
           .addPlace(titleTextController.text, _pickedImage!);
-      // ignore: missing_required_param
+
       _databaseHelper.create(Place(
           title: titleTextController.text.toString(),
           image: _pickedImage,
           latitude: _latitude,
-          longitude: _longitude));
+          longitude: _longitude,
+          address: placemarks[0].locality! + " " + placemarks[0].subLocality!));
       Navigator.of(context).pop();
     }
 

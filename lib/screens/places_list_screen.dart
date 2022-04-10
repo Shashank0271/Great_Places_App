@@ -80,6 +80,8 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
                                       setState(() {});
                                     }),
                                 title: Text(snapshot.data![index]['title']),
+                                subtitle:
+                                    Text(snapshot.data![index]['address']),
                               ),
                             ),
                           ),

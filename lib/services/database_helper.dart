@@ -38,7 +38,7 @@ class DatabaseHelper {
       $columnImage TEXT NOT NULL ,
       $columnlatitude TEXT ,
       $columnlongitude TEXT ,
-      $columnaddress TEXT ,
+      $columnaddress TEXT 
     )''');
   }
 

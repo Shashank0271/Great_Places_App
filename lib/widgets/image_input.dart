@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path; //constructing paths
-import 'package:path_provider/path_provider.dart' as syspath; //finding paths
+import 'package:path_provider/path_provider.dart' as syspath;
+import 'package:sqflite/utils/utils.dart'; //finding paths
 
 class ImageInput extends StatefulWidget {
   final Function sendIt; //pointer to the function is passed
@@ -42,9 +43,12 @@ class _ImageInputState extends State<ImageInput> {
             borderRadius: const BorderRadius.all(Radius.circular(8)),
           ),
           child: storedImage != null
-              ? Image.file(
-                  storedImage!,
-                  fit: BoxFit.cover,
+              ? ClipRRect(
+                  child: Image.file(
+                    storedImage!,
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
                 )
               : const Center(child: Text('No image available')),
         ),
