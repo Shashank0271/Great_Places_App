@@ -1,11 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:great_places_app/screens/map_screen.dart';
-import 'package:location/location.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+
+import 'package:great_places_app/screens/map_screen.dart';
+
 class LocationInput extends StatefulWidget {
-  const LocationInput({Key? key}) : super(key: key);
+  final Function selectLocation;
+  const LocationInput(
+    this.selectLocation,
+  );
 
   @override
   State<LocationInput> createState() => _LocationInputState();
@@ -16,7 +23,6 @@ const apiKey = 'AIzaSyBhCqHm1BrofyrPtltsmJ2eu5B7lAkMURs';
 class _LocationInputState extends State<LocationInput> {
   String? imageUrl;
   CameraPosition? _cameraPosition;
-  // final Completer<GoogleMapController> _controller = Completer();
   GoogleMapController? _mapController;
   Set<Marker> markerSet = {};
   late double latitude, longitude;
@@ -43,6 +49,7 @@ class _LocationInputState extends State<LocationInput> {
       )
     };
     setState(() {
+      widget.selectLocation(latitude, longitude);
       if (_mapController != null) {
         _moveCamToPos(latitude, longitude);
       }
@@ -65,7 +72,7 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       latitude = returnedLocation.latitude;
       longitude = returnedLocation.longitude;
-
+      widget.selectLocation(latitude, longitude);
       markerSet = {
         Marker(
             markerId: const MarkerId("id"),
@@ -96,7 +103,6 @@ class _LocationInputState extends State<LocationInput> {
                   markers: markerSet,
                   initialCameraPosition: _cameraPosition!,
                   onMapCreated: (GoogleMapController controller) async {
-                    // _controller.complete(controller);
                     _mapController = controller;
                   },
                 ),

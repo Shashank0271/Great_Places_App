@@ -21,5 +21,7 @@ class Place {
         'id': id,
         'title': title,
         'image': image!.path,
+        'latitude': latitude,
+        'longitude': longitude,
       };
 }

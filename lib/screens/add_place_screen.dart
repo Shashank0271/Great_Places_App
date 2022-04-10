@@ -21,11 +21,17 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   Widget build(BuildContext context) {
     TextEditingController titleTextController = TextEditingController();
     File? _pickedImage;
-
+    double? _latitude, _longitude;
     void selectImage(File pickedImage) {
       //just so we can bring the file to this dart file
       //since the code to save the place is in this file
       _pickedImage = pickedImage;
+    }
+
+    void selectLocation(double latitude, double longitude) {
+      print('called');
+      _latitude = latitude;
+      _longitude = longitude;
     }
 
     void _savePlace() async {
@@ -77,7 +83,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     const SizedBox(height: 10),
                     ImageInput(selectImage),
                     const SizedBox(height: 10),
-                    const LocationInput(),
+                    LocationInput(selectLocation),
                   ],
                 ),
               ),
@@ -94,9 +100,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               color: Theme.of(context).iconTheme.color,
             ),
             style: ElevatedButton.styleFrom(
-                elevation: 0,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                primary: Theme.of(context).colorScheme.secondary),
+              elevation: 0,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              primary: Theme.of(context).colorScheme.secondary,
+            ),
           ),
         ],
       ),
