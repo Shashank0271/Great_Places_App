@@ -10,6 +10,8 @@ class DatabaseHelper {
   static const columnid = 'id';
   static const columnTitle = "title";
   static const columnImage = "image";
+  static const latitude = "latitude";
+  static const longitude = "longitude";
 
   static final instance = DatabaseHelper._init();
   DatabaseHelper._init();
