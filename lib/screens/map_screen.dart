@@ -16,10 +16,17 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
+
   void _getLocation(LatLng position) {
     setState(() {
       _pickedLocation = position;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getLocation(LatLng(widget.latitude, widget.longitude));
   }
 
   @override

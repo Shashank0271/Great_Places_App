@@ -60,7 +60,7 @@ class _LocationInputState extends State<LocationInput> {
     });
   }
 
-  void updateLocSnap() async {
+  void _updateLocSnap() async {
     //after selecting from map
     if (_latitude == null) {
       await getCurrentCoordinates();
@@ -139,7 +139,7 @@ class _LocationInputState extends State<LocationInput> {
               label: const Text('Current Location'),
             ),
             ElevatedButton.icon(
-              onPressed: updateLocSnap,
+              onPressed: _updateLocSnap,
               icon: const Icon(Icons.map_outlined),
               label: const Text('Select on Map'),
             ),

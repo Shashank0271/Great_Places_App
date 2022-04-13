@@ -2,8 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path; //constructing paths
-import 'package:path_provider/path_provider.dart' as syspath;
-import 'package:sqflite/utils/utils.dart'; //finding paths
+import 'package:path_provider/path_provider.dart' as syspath; //finding paths
 
 class ImageInput extends StatefulWidget {
   final Function sendIt; //pointer to the function is passed

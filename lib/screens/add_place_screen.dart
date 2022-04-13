@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places_app/providers/great_places.dart';
 import 'package:great_places_app/widgets/location_input.dart';
 import '../widgets/image_input.dart';
@@ -68,7 +67,11 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
           image: _pickedImage,
           latitude: _latitude,
           longitude: _longitude,
-          address: placemarks[0].locality! + " " + placemarks[0].subLocality!));
+          address: placemarks[0].locality! +
+              " " +
+              placemarks[0].subLocality! +
+              " " +
+              placemarks[0].name!));
       Navigator.of(context).pop();
     }
 
