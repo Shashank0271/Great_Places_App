@@ -114,8 +114,9 @@ class _LocationInputState extends State<LocationInput> {
               : ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   child: GoogleMap(
+                    rotateGesturesEnabled: false,
                     scrollGesturesEnabled: false,
-                    zoomControlsEnabled: false,
+                    zoomControlsEnabled: true,
                     zoomGesturesEnabled: false,
                     markers: markerSet,
                     initialCameraPosition: _cameraPosition!,

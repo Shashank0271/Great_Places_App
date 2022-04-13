@@ -4,6 +4,7 @@ import 'package:great_places_app/screens/add_place_screen.dart';
 import 'package:great_places_app/services/database_helper.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'place_detail_screen.dart';
 
 class PlacesListScreen extends StatefulWidget {
   const PlacesListScreen({Key? key}) : super(key: key);
@@ -61,28 +62,35 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
                         child: SlideAnimation(
                           verticalOffset: 50.0,
                           child: FadeInAnimation(
-                            child: Card(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundImage: FileImage(
-                                      File(snapshot.data![index]['image'])),
+                            child: GestureDetector(
+                              child: Card(
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage: FileImage(
+                                        File(snapshot.data![index]['image'])),
+                                  ),
+                                  trailing: IconButton(
+                                      icon: Icon(
+                                        Icons.delete_forever,
+                                        color:
+                                            Theme.of(context).colorScheme.error,
+                                        size: 25,
+                                      ),
+                                      onPressed: () {
+                                        DatabaseHelper.instance.delete(
+                                            snapshot.data![index]['id']);
+                                        setState(() {});
+                                      }),
+                                  title: Text(snapshot.data![index]['title']),
+                                  subtitle:
+                                      Text(snapshot.data![index]['address']),
                                 ),
-                                trailing: IconButton(
-                                    icon: Icon(
-                                      Icons.delete_forever,
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                      size: 25,
-                                    ),
-                                    onPressed: () {
-                                      DatabaseHelper.instance
-                                          .delete(snapshot.data![index]['id']);
-                                      setState(() {});
-                                    }),
-                                title: Text(snapshot.data![index]['title']),
-                                subtitle:
-                                    Text(snapshot.data![index]['address']),
                               ),
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                    PlaceDetailsSCreen.routeName,
+                                    arguments: snapshot.data![index]);
+                              },
                             ),
                           ),
                         ),
