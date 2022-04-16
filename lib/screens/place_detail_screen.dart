@@ -15,14 +15,14 @@ class PlaceDetailsSCreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(snapData['title'])),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             Card(
               child: Image.file(
                 File(snapData['image']),
                 width: MediaQuery.of(context).size.width,
-                height: 150,
+                height: 250,
               ),
             ),
             const SizedBox(height: 100),
