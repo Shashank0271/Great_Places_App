@@ -18,18 +18,18 @@ class PlaceDetailsSCreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Container(
-              height: 250,
-              width: MediaQuery.of(context).size.width,
+            Card(
               child: Image.file(
                 File(snapData['image']),
+                width: MediaQuery.of(context).size.width,
+                height: 150,
               ),
             ),
             const SizedBox(height: 100),
             Text(snapData['address']),
             const SizedBox(height: 100),
             IconButton(
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
