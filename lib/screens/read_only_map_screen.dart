@@ -16,8 +16,9 @@ class ReadOnlyMapScreen extends StatelessWidget {
       ),
       markers: {
         Marker(
-            markerId: const MarkerId('defid'),
-            position: LatLng(latitude!, longitude!))
+          markerId: const MarkerId('defid'),
+          position: LatLng(latitude!, longitude!),
+        )
       },
     ));
   }

@@ -14,29 +14,33 @@ class PlaceDetailsSCreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(snapData['title'])),
-      body: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReadOnlyMapScreen(
-                            double.parse(snapData['latitude']),
-                            double.parse(snapData['longitude']),
-                          )));
-            },
-            child: Container(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Container(
               height: 250,
               width: MediaQuery.of(context).size.width,
               child: Image.file(
                 File(snapData['image']),
               ),
             ),
-          ),
-          const SizedBox(height: 100),
-          Text(snapData['address']),
-        ],
+            const SizedBox(height: 100),
+            Text(snapData['address']),
+            const SizedBox(height: 100),
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ReadOnlyMapScreen(
+                          double.parse(snapData['latitude']),
+                          double.parse(snapData['longitude'])),
+                    ),
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }

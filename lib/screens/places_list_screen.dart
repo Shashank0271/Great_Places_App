@@ -88,8 +88,9 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
                               ),
                               onTap: () {
                                 Navigator.of(context).pushNamed(
-                                    PlaceDetailsSCreen.routeName,
-                                    arguments: snapshot.data![index]);
+                                  PlaceDetailsSCreen.routeName,
+                                  arguments: snapshot.data![index],
+                                );
                               },
                             ),
                           ),
