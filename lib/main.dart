@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:great_places_app/providers/great_places.dart';
 import 'package:great_places_app/screens/add_place_screen.dart';
+import 'package:great_places_app/screens/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:great_places_app/screens/places_list_screen.dart';
+import 'models/spot.dart';
 import 'screens/place_detail_screen.dart';
+import 'screens/show_spots_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,10 +33,15 @@ class MyApp extends StatelessWidget {
             textTheme: const TextTheme(
               button: TextStyle(color: Colors.black),
             )),
-        home: const PlacesListScreen(),
+        home: const HomePage(),
         routes: {
+          PlacesListScreen.routeName: (context) => const PlacesListScreen(),
           AddPlaceScreen.routeName: (context) => const AddPlaceScreen(),
           PlaceDetailsSCreen.routeName: (context) => const PlaceDetailsSCreen(),
+          ShowSpotsScreen.routeName: (context) {
+            final placesList = ModalRoute.of(context)!.settings.arguments as List<Spot>;
+            return ShowSpotsScreen(places: placesList );
+          }
         },
       ),
     );

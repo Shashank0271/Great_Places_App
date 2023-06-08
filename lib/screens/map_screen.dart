@@ -18,6 +18,7 @@ class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
 
   void _getLocation(LatLng position) {
+    print("${position.latitude} ${position.longitude}");
     setState(() {
       _pickedLocation = position;
     });

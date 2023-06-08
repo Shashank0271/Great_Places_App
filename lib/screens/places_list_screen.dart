@@ -7,6 +7,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'place_detail_screen.dart';
 
 class PlacesListScreen extends StatefulWidget {
+  static const routeName = '/places_lists_screen';
   const PlacesListScreen({Key? key}) : super(key: key);
 
   @override

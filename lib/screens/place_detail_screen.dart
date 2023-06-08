@@ -28,17 +28,20 @@ class PlaceDetailsSCreen extends StatelessWidget {
             const SizedBox(height: 100),
             Text(snapData['address']),
             const SizedBox(height: 100),
-            IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ReadOnlyMapScreen(
-                          double.parse(snapData['latitude']),
-                          double.parse(snapData['longitude'])),
-                    ),
-                  );
-                }),
+            Material(
+              elevation: 10,
+              child: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ReadOnlyMapScreen(
+                            double.parse(snapData['latitude']),
+                            double.parse(snapData['longitude'])),
+                      ),
+                    );
+                  }),
+            ),
           ],
         ),
       ),

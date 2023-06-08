@@ -20,7 +20,6 @@ class _ReadOnlyMapScreenState extends State<ReadOnlyMapScreen> {
     var locationData = await Location().getLocation();
     _srclatitude = locationData.latitude as double;
     _srclongitude = locationData.longitude as double;
-    //TODO : form the polyline and then render the map
   }
 
   @override
